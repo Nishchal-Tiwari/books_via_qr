@@ -1,0 +1,60 @@
+const mongoose = require("mongoose");
+
+const bookSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    unique_id: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    image: {
+        type: String,
+    },
+    pdf_url: {
+        type: String,
+    },
+    series: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Series",
+    },
+    class: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Class",
+    },
+});
+
+const Book = mongoose.model("Book", bookSchema);
+module.exports = Book;
+
+const seriesSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    classes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Class",
+        },
+    ],
+});
+
+const Series = mongoose.model("Series", seriesSchema);
+module.exports = Series;
+const classSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    series: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Series",
+        required: true,
+    },
+});
+
+const Class = mongoose.model("Class", classSchema);
+module.exports = Class;
